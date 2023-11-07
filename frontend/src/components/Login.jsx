@@ -4,10 +4,16 @@ import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import {useState} from 'react'
 import { Avatar, Container, Grid, Paper, Typography } from '@mui/material';
+import App from '../App';
+import { Route, useNavigate } from 'react-router-dom';
 //import CssBaseline from '@mui/material/CssBaseline';
-
+import { useDispatch } from 'react-redux';
+import { loginActions } from '../store/storelogin';
 
 function Login () {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
     const [user,setUser] = useState('')
     const [password,setPassword] = useState('')
 
@@ -22,8 +28,12 @@ function Login () {
                     if (response['data']['nombre'] == null) {
                         alert("Las credenciales son incorrectas")
                     } else {
-                        alert("Inicio de sesión correcto")
                         console.log(response)
+                        dispatch(loginActions.login({
+                            name: response['data']['nombre'],
+                            rol: response['data']['rol']
+                        }))
+                        navigate('/home')
                     }
                 }
             })

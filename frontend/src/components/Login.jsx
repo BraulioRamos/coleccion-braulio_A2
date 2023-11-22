@@ -3,9 +3,8 @@ import React from 'react'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import {useState} from 'react'
-import { Avatar, Container, Grid, Paper, Typography } from '@mui/material';
-import App from '../App';
-import { Route, useNavigate } from 'react-router-dom';
+import { Avatar, Container, Grid, Paper, Tooltip, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 //import CssBaseline from '@mui/material/CssBaseline';
 import { useDispatch } from 'react-redux';
 import { loginActions } from '../store/storelogin';
@@ -65,7 +64,9 @@ function Login () {
                         onChange={(event) => setPassword(event.target.value)}
                         sx={{"width":"90%","margin":"1vh 5%"}}
                     ></TextField><br/>
-                    <Button variant="contained" type="submit" sx={{"width":"90%","margin":"1vh 5%"}}>Acceder</Button>
+                    <Tooltip title="Iniciar sesión" arrow placement="bottom">
+                        <Button variant="contained" type="submit" sx={{"width":"90%","margin":"1vh 5%"}}>Acceder</Button>
+                    </Tooltip>
                 </Grid>
             </Container>
         </Paper>

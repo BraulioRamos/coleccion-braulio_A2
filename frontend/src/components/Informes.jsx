@@ -1,4 +1,4 @@
-import { Button, Paper, Grid } from "@mui/material"
+import { Button, Paper, Grid, Tooltip } from "@mui/material"
 import Topbar from "./Topbar"
 import InformeColeccion from "./InformeColeccion"
 import { useState } from "react"
@@ -44,7 +44,9 @@ function Informes() {
             <Grid container>
                 <Grid item xs={5}></Grid>
                 <Grid item xs={2}>
-                    <Button variant="contained" onClick={(event) => getData()} sx={{"margin":"auto","width":"100%"}} >INFORME COLECCIÓN</Button>
+                    <Tooltip title="Generar informe" arrow placement="right-end">
+                        <Button variant="contained" onClick={(event) => getData()} sx={{"margin":"auto","width":"100%"}} >INFORME COLECCIÓN</Button>
+                    </Tooltip>
                 </Grid>
             </Grid>
         </Paper>

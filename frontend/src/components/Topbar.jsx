@@ -1,7 +1,7 @@
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import PersonIcon from '@mui/icons-material/Person';
 import { Link, useNavigate } from "react-router-dom"
-import { AppBar, Button, Container, Grid, Toolbar, Typography } from "@mui/material"
+import { AppBar, Button, Container, Grid, Toolbar, Tooltip, Typography } from "@mui/material"
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginActions } from '../store/storelogin';
@@ -48,12 +48,14 @@ function Topbar() {
                                 </Grid>
                                 }
                                 <Grid item xs={4} md={4} lg={2}>
-                                    <Link to='/home'><Typography variant="h6" sx={{"marginLeft":"2vw"}}>Ayuda</Typography></Link>
+                                    <Link to='/Ramos_DeLaVega_Braulio_UT3A1.pdf' target='_blank'><Typography variant="h6" sx={{"marginLeft":"2vw"}}>Ayuda</Typography></Link>
                                 </Grid>
                             </Grid>
                         </Grid>
                         <Grid item xs={12} md={4} lg={2} sx={{"paddingBottom":"5px"}}>
-                            <Button variant="contained" onClick = {logOut} sx={{"float":"right","position":"relative","top":"5%"}}>Salir</Button>
+                            <Tooltip title="Cerrar sesión" arrow placement='left'>
+                                <Button variant="contained" onClick = {logOut} sx={{"float":"right","position":"relative","top":"5%"}}>Salir</Button>
+                            </Tooltip>
                         </Grid>
                     </Grid>
                 </Toolbar>

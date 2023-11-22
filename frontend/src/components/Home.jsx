@@ -1,4 +1,4 @@
-import {  Box, Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material"
+import {  Box, Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -128,7 +128,9 @@ function Home () {
                         >
                         </TextField>
                     </Grid>
-                    <Button variant="outlined" type="submit" sx={{"margin":"20px auto 0px"}}>+ Insertar datos</Button>
+                    <Tooltip title="Insertar nuevo registro" arrow placement="bottom">
+                        <Button variant="outlined" type="submit" sx={{"margin":"20px auto 0px"}}>+ Insertar datos</Button>
+                    </Tooltip>
             </Grid>
             </Box>
         </Paper>
@@ -151,9 +153,11 @@ function Home () {
                     <TableRow key={row.id}>
                         <TableCell>
                             {(userData['userRol']==="admin")&&
-                            <Button data-id={row.id} onClick={(event) => deleteProduct(event.target)}>
-                                <DeleteForeverIcon data-id={row.id} />
-                            </Button>
+                            <Tooltip title="Eliminar registro" arrow placement="bottom">
+                                <Button data-id={row.id} onClick={(event) => deleteProduct(event.target)}>
+                                    <DeleteForeverIcon data-id={row.id} />
+                                </Button>
+                            </Tooltip>
                             }
                         </TableCell>
                         <TableCell>{row.nombre}</TableCell>

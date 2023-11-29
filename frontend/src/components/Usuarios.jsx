@@ -1,24 +1,21 @@
 import {  Box, Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip } from "@mui/material"
 import React, { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Topbar from "./Topbar";
 
-function Home () {
+function Usuarios () {
 
     const [item, setItem] = useState({nombre: '', login: '',password: '',rol: ''})
-    const userData = useSelector(state => state.login)
     const [tableData, setTableData] = useState({data: []})
     const [cont, setCont] = useState(0)
 
     useEffect(() => {
         if (cont === 0) {
-            getProductos()
+            getUsuarios()
             setCont(1)
         }
 
-        function getProductos() {
-            fetch(`http://localhost:3030/select`)
+        function getUsuarios() {
+            fetch(`http://localhost:3030/usuarios/select`)
                 .then(response=>response.json())
                 .then(response=>{
                     setTableData(response)
@@ -26,51 +23,25 @@ function Home () {
         }
     }, [cont,setCont,setTableData,tableData])
 
-    function getProductos() {
-        fetch(`http://localhost:3030/select`)
+    function getUsuarios() {
+        fetch(`http://localhost:3030/usuarios/select`)
                 .then(response=>response.json())
                 .then(response=>{
                     setTableData(response)
             })
     }
 
-    function deleteProduct(element) {
-        let id
-        if (element.nodeName==="path") {
-            id = element.parentElement.getAttribute('data-id')
-        } else {
-            id = element.getAttribute('data-id')
-        }
-        
-        fetch(`http://localhost:3030/delete?id=${id}`)
-                .then(response=>response.json())
-                .then(response=>{
-                    try {
-                        if(response>0) {
-                            alert("Registro eliminado.")
-                        } else {
-                            alert("Ha ocurrido un error. El registro no se ha eliminado.")
-                            console.log(response)
-                        }
-                    } catch (e) {
-                        alert("Ha ocurrido un error. El registro no se ha eliminado.")
-                        console.log(response)
-                    }
-                    getProductos()
-            })
-    }
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch(`http://localhost:3030/insert?nombre=${item.nombre}&marca=${item.marca}&precio=${item.precio}&tipo=${item.tipo}`)
+        fetch(`http://localhost:3030/usuarios/insert?nombre=${item.nombre}&login=${item.login}&password=${item.password}&rol=${item.rol}`)
             .then(response=>response.json())
             .then(response=>{
                 try {
                     console.log()
                     if(response>0) {
                         alert("Datos guardados con éxito.")
-                        setItem({nombre: '', marca: '',precio: '',tipo: ''})
-                        getProductos()
+                        setItem({nombre: '', login: '',password: '',rol: ''})
+                        getUsuarios()
                     } else {
                         alert("Ha ocurrido un error. Los datos no se han guardado.")
                         console.log(response)
@@ -84,7 +55,7 @@ function Home () {
 
     return <>
         <Topbar></Topbar>
-        {(userData['userRol']==="admin" || userData['userRol']==="user")&&
+
         <Paper sx={{"padding":"20px 20px 15px"}}>
             <Box component='form' autoComplete='off' onSubmit={handleSubmit} >
                 <Grid container>
@@ -100,31 +71,31 @@ function Home () {
                     </Grid>
                     <Grid item xs={4} md={3}>
                         <TextField
-                            label='Marca'
+                            label='Login'
                             required
                             sx={{"width":"90%","marginLeft":"5%"}}
-                            value={item.marca}
-                            onChange={(event) => setItem({...item, marca : event.target.value })}
+                            value={item.login}
+                            onChange={(event) => setItem({...item, login : event.target.value })}
                         >
                         </TextField>
                     </Grid>
                     <Grid item xs={4} md={3}>
                         <TextField
-                            label='Tipo'
+                            label='Password'
                             required
                             sx={{"width":"90%","marginLeft":"5%"}}
-                            value={item.tipo}
-                            onChange={(event) => setItem({...item, tipo : event.target.value })}
+                            value={item.password}
+                            onChange={(event) => setItem({...item, password : event.target.value })}
                         >
                         </TextField>
                     </Grid>
                     <Grid item xs={4} md={3}>
                         <TextField
-                            label='Precio'
+                            label='Rol'
                             required
                             sx={{"width":"90%","marginLeft":"5%"}}
-                            value={item.precio}
-                            onChange={(event) => setItem({...item, precio : event.target.value })}
+                            value={item.rol}
+                            onChange={(event) => setItem({...item, rol : event.target.value })}
                         >
                         </TextField>
                     </Grid>
@@ -133,17 +104,16 @@ function Home () {
                     </Tooltip>
             </Grid>
             </Box>
-        </Paper>}
+        </Paper>
 
         <TableContainer>
             <Table aria-label='Nombre Tabla para accesibilidad'>
             <TableHead>
                 <TableRow>
-                    <TableCell></TableCell>
                     <TableCell><b>Nombre</b></TableCell>
-                    <TableCell><b>Marca</b></TableCell>
-                    <TableCell><b>Tipo</b></TableCell>
-                    <TableCell><b>Precio</b></TableCell>
+                    <TableCell><b>Login</b></TableCell>
+                    <TableCell><b>Password</b></TableCell>
+                    <TableCell><b>Rol</b></TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -151,19 +121,10 @@ function Home () {
                 {
                 tableData['data'].map((row) => (
                     <TableRow key={row.id}>
-                        <TableCell>
-                            {(userData['userRol']==="admin")&&
-                            <Tooltip title="Eliminar registro" arrow placement="bottom">
-                                <Button data-id={row.id} onClick={(event) => deleteProduct(event.target)}>
-                                    <DeleteForeverIcon data-id={row.id} />
-                                </Button>
-                            </Tooltip>
-                            }
-                        </TableCell>
                         <TableCell>{row.nombre}</TableCell>
-                        <TableCell>{row.marca}</TableCell>
-                        <TableCell>{row.tipo}</TableCell>
-                        <TableCell>{row.precio}</TableCell>
+                        <TableCell>{row.login}</TableCell>
+                        <TableCell>{row.password}</TableCell>
+                        <TableCell>{row.rol}</TableCell>
                     </TableRow>
                 ))
                 }
@@ -174,4 +135,4 @@ function Home () {
     </>
 }
 
-export default Home
+export default Usuarios
